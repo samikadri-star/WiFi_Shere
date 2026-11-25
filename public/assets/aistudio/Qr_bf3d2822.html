@@ -1,0 +1,202 @@
+<!DOCTYPE html><html lang="ar" dir="rtl" class="dark"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الربط السريع عبر رمز QR</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'primary': '#4EDEA3',
+        'on-primary': '#003824',
+        'primary-container': '#10B981',
+        'on-primary-container': '#00291A',
+        'secondary': '#9ED2B5',
+        'on-secondary': '#013824',
+        'secondary-container': '#21523C',
+        'on-secondary-container': '#C8FDDE',
+        'tertiary': '#FFB3AF',
+        'on-tertiary': '#650911',
+        'tertiary-container': '#842225',
+        'on-tertiary-container': '#FFDAD7',
+        'success': '#26C289',
+        'on-success': '#002113',
+        'warning': '#FBBF24',
+        'on-warning': '#291800',
+        'error': '#FFB4AB',
+        'on-error': '#690005',
+        'error-container': '#93000A',
+        'on-error-container': '#FFDAD6',
+        'background': '#0E1511',
+        'on-background': '#DDE4DD',
+        'surface': '#0E1511',
+        'surface-dim': '#09100C',
+        'surface-bright': '#343B36',
+        'surface-container-lowest': '#09100C',
+        'surface-container-low': '#161D19',
+        'surface-container': '#1A211D',
+        'surface-container-high': '#242C27',
+        'surface-container-highest': '#2F3632',
+        'on-surface': '#DDE4DD',
+        'surface-variant': '#3C4A42',
+        'on-surface-variant': '#BBCABF',
+        'outline': '#86948A',
+        'outline-variant': '#3C4A42',
+        'inverse-surface': '#DDE4DD',
+        'inverse-on-surface': '#2B322D',
+        'inverse-primary': '#006C49',
+      },
+      borderRadius: {
+        'sm': '6px',
+        'DEFAULT': '12px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '24px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '12px',
+        'gutter-lg': '16px',
+        'gutter-xl': '24px',
+        'section': '32px',
+        'page-margin': '16px',
+      },
+      fontFamily: {
+        'display': ['"Cairo"', 'sans-serif'],
+        'headline': ['"Cairo"', 'sans-serif'],
+        'title': ['"Cairo"', 'sans-serif'],
+        'body': ['"Cairo"', 'sans-serif'],
+        'label': ['"Cairo"', 'sans-serif'],
+        'mono': ['"JetBrains Mono"', 'monospace'],
+      },
+      fontSize: {
+        'display-lg': ['36px', { lineHeight: '44px', letterSpacing: '0px', fontWeight: '700' }],
+        'display-lg-mobile': ['28px', { lineHeight: '36px', letterSpacing: '0px', fontWeight: '700' }],
+        'headline-lg': ['24px', { lineHeight: '32px', letterSpacing: '0px', fontWeight: '700' }],
+        'headline-md': ['20px', { lineHeight: '28px', letterSpacing: '0px', fontWeight: '700' }],
+        'title-lg': ['18px', { lineHeight: '26px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-md': ['16px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '600' }],
+        'body-lg': ['16px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-md': ['14px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '400' }],
+        'label-lg': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '600' }],
+        'label-md': ['12px', { lineHeight: '16px', letterSpacing: '0px', fontWeight: '600' }],
+        'mono-lg': ['20px', { lineHeight: '28px', letterSpacing: '0px', fontWeight: '600' }],
+        'mono-sm': ['12px', { lineHeight: '16px', letterSpacing: '0px', fontWeight: '500' }],
+      },
+      transitionDuration: {
+        'state-change': '120ms',
+        'surface-enter': '240ms',
+        'surface-exit': '160ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'surface-exit': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'ease-out',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-exit': 'cubic-bezier(0.3, 0, 1, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>.material-symbols-outlined, .material-symbols-rounded, .material-symbols-sharp, .material-icons { display: inline-block; width: 1em; height: 1em; line-height: 1 !important; box-sizing: content-box; overflow: hidden; white-space: nowrap; direction: ltr; vertical-align: middle; }</style>
+</head>
+<body class="bg-surface text-on-surface font-body antialiased selection:bg-primary selection:text-on-primary">
+
+  <div class="min-h-[884px] w-full max-w-md mx-auto flex flex-col bg-surface text-on-surface overflow-x-hidden" data-stitch-vh="min-h-[884px]===min-h-screen">
+
+    <!-- Sticky Contextual Header -->
+    <header class="sticky top-0 z-20 bg-surface border-b border-outline-variant px-page-margin py-gutter-md flex items-center justify-between gap-gutter-md">
+      <div class="flex items-center gap-gutter-md min-w-0">
+        <!-- COMPONENT: button-icon -->
+        <button data-component-id="button-icon" data-component-type="button" data-component-variant="icon" type="button" aria-label="العودة" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-surface-container-high text-on-surface border border-outline-variant transition-colors duration-state-change ease-state-change hover:bg-surface-container-highest hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary shrink-0">
+          <span class="material-symbols-outlined text-[20px]" aria-hidden="true">arrow_forward</span>
+        </button>
+
+        <div class="flex flex-col min-w-0">
+          <h1 class="font-headline text-title-lg text-on-surface leading-tight" data-design-text-token="title-lg">الربط السريع عبر QR</h1>
+          <span class="font-label text-label-md text-on-surface-variant" data-design-text-token="label-md">اتصال مباشر بنقطة الاتصال</span>
+        </div>
+      </div>
+
+      <!-- COMPONENT: button-icon -->
+      <button data-component-id="button-icon" data-component-type="button" data-component-variant="icon" type="button" aria-label="تشغيل الفلاش" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-surface-container-high text-on-surface border border-outline-variant transition-colors duration-state-change ease-state-change hover:bg-surface-container-highest hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary shrink-0">
+        <span class="material-symbols-outlined text-[20px]" aria-hidden="true">flashlight_on</span>
+      </button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 min-w-0 px-page-margin py-gutter-xl flex flex-col justify-between gap-gutter-xl">
+
+      <!-- Mode Switcher (Scan vs Show My QR) -->
+      <div class="rounded-full bg-surface-container-high border border-outline-variant p-gutter-xs grid grid-cols-2 gap-gutter-xs" role="tablist" aria-label="وضع الربط">
+        <button type="button" role="tab" aria-selected="true" class="py-gutter-sm px-gutter-md rounded-full bg-primary text-on-primary font-label text-label-lg text-center transition-colors duration-state-change">
+          <span data-design-text-token="label-lg">مسح رمز QR</span>
+        </button>
+        <button type="button" role="tab" aria-selected="false" class="py-gutter-sm px-gutter-md rounded-full text-on-surface-variant hover:text-on-surface font-label text-label-lg text-center transition-colors duration-state-change">
+          <span data-design-text-token="label-lg">عرض رمزي</span>
+        </button>
+      </div>
+
+      <!-- Viewfinder Frame -->
+      <section aria-label="إطار مسح رمز QR" class="flex flex-col items-center gap-gutter-lg">
+        <div class="w-full aspect-square max-w-[280px] rounded-xl bg-surface-container-lowest border border-outline-variant p-gutter-xl flex items-center justify-center relative">
+          <!-- Four Emerald Corner Brackets -->
+          <div class="w-full h-full relative flex flex-col items-center justify-center gap-gutter-md">
+            <span class="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-primary rounded-tr-md" aria-hidden="true"></span>
+            <span class="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-primary rounded-tl-md" aria-hidden="true"></span>
+            <span class="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-primary rounded-br-md" aria-hidden="true"></span>
+            <span class="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-primary rounded-bl-md" aria-hidden="true"></span>
+
+            <span class="material-symbols-outlined text-[64px] text-primary" aria-hidden="true">qr_code_scanner</span>
+            <span class="font-label text-label-md text-on-surface-variant text-center" data-design-text-token="label-md">في انتظار مسح الرمز...</span>
+          </div>
+        </div>
+
+        <div class="flex flex-col items-center gap-gutter-sm text-center">
+          <p class="font-body text-body-lg text-on-surface text-pretty" data-design-text-token="body-lg">وجّه الكاميرا نحو رمز QR في الجهاز الآخر</p>
+          <!-- COMPONENT: badge-status -->
+          <span data-component-id="badge-status" data-component-type="badge" data-component-variant="status" role="status" class="inline-flex items-center gap-gutter-xs px-gutter-md py-gutter-xs rounded-full bg-secondary-container text-on-secondary-container font-label text-label-md">
+            <span class="material-symbols-outlined text-[16px] text-primary" aria-hidden="true">verified</span>
+            <span data-design-text-token="label-md">سيتم حفظ الارتباط تلقائياً لمرة واحدة</span>
+          </span>
+        </div>
+      </section>
+
+      <!-- Hotspot Direct Info Card -->
+      <!-- COMPONENT: card-elevated -->
+      <article data-component-id="card-elevated" data-component-type="card" data-component-variant="elevated" class="rounded-lg bg-surface-container border border-outline-variant p-gutter-lg flex items-center justify-between gap-gutter-md">
+        <div class="flex items-center gap-gutter-md min-w-0">
+          <div class="w-10 h-10 rounded-md bg-secondary-container text-primary flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-[22px]" aria-hidden="true">wifi_tethering</span>
+          </div>
+          <div class="flex flex-col min-w-0">
+            <h2 class="font-title text-title-md text-on-surface" data-design-text-token="title-md">نقطة الاتصال المحلية</h2>
+            <p class="font-mono text-mono-sm text-on-surface-variant tabular-nums" data-design-text-token="mono-sm">WiFiShare_5G_A84 • 5 GHz</p>
+          </div>
+        </div>
+
+        <!-- COMPONENT: button-secondary -->
+        <button data-component-id="button-secondary" data-component-type="button" data-component-variant="secondary" type="button" class="inline-flex items-center justify-center gap-gutter-xs px-gutter-md py-gutter-sm rounded-md bg-secondary-container text-on-secondary-container border border-outline-variant font-label text-label-md transition-colors duration-state-change hover:bg-surface-container-highest focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary shrink-0">
+          <span data-design-text-token="label-md">عرض رمزي</span>
+        </button>
+      </article>
+
+    </main>
+
+  </div>
+
+
+
+</body></html>

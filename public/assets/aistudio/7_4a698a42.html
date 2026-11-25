@@ -1,0 +1,212 @@
+<!DOCTYPE html><html lang="ar" dir="rtl" class="dark"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>اكتمال النقل بنجاح</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'primary': '#4EDEA3',
+        'on-primary': '#003824',
+        'primary-container': '#10B981',
+        'on-primary-container': '#00291A',
+        'secondary': '#9ED2B5',
+        'on-secondary': '#013824',
+        'secondary-container': '#21523C',
+        'on-secondary-container': '#C8FDDE',
+        'tertiary': '#FFB3AF',
+        'on-tertiary': '#650911',
+        'tertiary-container': '#842225',
+        'on-tertiary-container': '#FFDAD7',
+        'success': '#26C289',
+        'on-success': '#002113',
+        'warning': '#FBBF24',
+        'on-warning': '#291800',
+        'error': '#FFB4AB',
+        'on-error': '#690005',
+        'error-container': '#93000A',
+        'on-error-container': '#FFDAD6',
+        'background': '#0E1511',
+        'on-background': '#DDE4DD',
+        'surface': '#0E1511',
+        'surface-dim': '#09100C',
+        'surface-bright': '#343B36',
+        'surface-container-lowest': '#09100C',
+        'surface-container-low': '#161D19',
+        'surface-container': '#1A211D',
+        'surface-container-high': '#242C27',
+        'surface-container-highest': '#2F3632',
+        'on-surface': '#DDE4DD',
+        'surface-variant': '#3C4A42',
+        'on-surface-variant': '#BBCABF',
+        'outline': '#86948A',
+        'outline-variant': '#3C4A42',
+        'inverse-surface': '#DDE4DD',
+        'inverse-on-surface': '#2B322D',
+        'inverse-primary': '#006C49',
+      },
+      borderRadius: {
+        'sm': '6px',
+        'DEFAULT': '12px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '24px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '12px',
+        'gutter-lg': '16px',
+        'gutter-xl': '24px',
+        'section': '32px',
+        'page-margin': '16px',
+      },
+      fontFamily: {
+        'display': ['"Cairo"', 'sans-serif'],
+        'headline': ['"Cairo"', 'sans-serif'],
+        'title': ['"Cairo"', 'sans-serif'],
+        'body': ['"Cairo"', 'sans-serif'],
+        'label': ['"Cairo"', 'sans-serif'],
+        'mono': ['"JetBrains Mono"', 'monospace'],
+      },
+      fontSize: {
+        'display-lg': ['36px', { lineHeight: '44px', letterSpacing: '0px', fontWeight: '700' }],
+        'display-lg-mobile': ['28px', { lineHeight: '36px', letterSpacing: '0px', fontWeight: '700' }],
+        'headline-lg': ['24px', { lineHeight: '32px', letterSpacing: '0px', fontWeight: '700' }],
+        'headline-md': ['20px', { lineHeight: '28px', letterSpacing: '0px', fontWeight: '700' }],
+        'title-lg': ['18px', { lineHeight: '26px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-md': ['16px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '600' }],
+        'body-lg': ['16px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-md': ['14px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '400' }],
+        'label-lg': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '600' }],
+        'label-md': ['12px', { lineHeight: '16px', letterSpacing: '0px', fontWeight: '600' }],
+        'mono-lg': ['20px', { lineHeight: '28px', letterSpacing: '0px', fontWeight: '600' }],
+        'mono-sm': ['12px', { lineHeight: '16px', letterSpacing: '0px', fontWeight: '500' }],
+      },
+      transitionDuration: {
+        'state-change': '120ms',
+        'surface-enter': '240ms',
+        'surface-exit': '160ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'surface-exit': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'ease-out',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-exit': 'cubic-bezier(0.3, 0, 1, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>.material-symbols-outlined, .material-symbols-rounded, .material-symbols-sharp, .material-icons { display: inline-block; width: 1em; height: 1em; line-height: 1 !important; box-sizing: content-box; overflow: hidden; white-space: nowrap; direction: ltr; vertical-align: middle; }</style>
+</head>
+<body class="bg-surface text-on-surface font-body antialiased selection:bg-primary selection:text-on-primary">
+
+  <div class="min-h-[884px] w-full max-w-md mx-auto flex flex-col bg-surface text-on-surface overflow-x-hidden" data-stitch-vh="min-h-[884px]===min-h-screen">
+
+    <!-- Sticky Contextual Header -->
+    <header class="sticky top-0 z-20 bg-surface border-b border-outline-variant px-page-margin py-gutter-md flex items-center justify-between gap-gutter-md">
+      <div class="flex items-center gap-gutter-md min-w-0">
+        <!-- COMPONENT: button-icon -->
+        <button data-component-id="button-icon" data-component-type="button" data-component-variant="icon" type="button" aria-label="إغلاق والعودة للرئيسية" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-surface-container-high text-on-surface border border-outline-variant transition-colors duration-state-change ease-state-change hover:bg-surface-container-highest hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary shrink-0">
+          <span class="material-symbols-outlined text-[20px]" aria-hidden="true">close</span>
+        </button>
+
+        <h1 class="font-headline text-title-lg text-on-surface leading-tight" data-design-text-token="title-lg">ملخص النقل</h1>
+      </div>
+
+      <!-- COMPONENT: badge-status -->
+      <span data-component-id="badge-status" data-component-type="badge" data-component-variant="status" role="status" class="inline-flex items-center gap-gutter-xs px-gutter-sm py-gutter-xs rounded-full bg-secondary-container text-on-secondary-container font-label text-label-md shrink-0">
+        <span class="material-symbols-outlined text-[14px] text-primary" aria-hidden="true">verified</span>
+        <span data-design-text-token="label-md">هاتف سارة</span>
+      </span>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 min-w-0 px-page-margin py-gutter-xl flex flex-col justify-between gap-gutter-xl">
+
+      <!-- Success Hero -->
+      <section aria-label="تأكيد اكتمال النقل" class="flex flex-col items-center text-center gap-gutter-md pt-gutter-md">
+        <div class="w-20 h-20 rounded-full bg-secondary-container text-primary border border-primary flex items-center justify-center">
+          <span class="material-symbols-outlined text-[42px]" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">check_circle</span>
+        </div>
+
+        <div class="flex flex-col gap-gutter-xs">
+          <h2 class="font-display text-display-lg-mobile text-on-surface text-balance" data-design-text-token="display-lg-mobile">تم النقل بنجاح</h2>
+          <p class="font-body text-body-lg text-on-surface-variant text-pretty" data-design-text-token="body-lg">اكتمل الإرسال والاستقبال المتزامن دون أي فقدان للبيانات.</p>
+        </div>
+      </section>
+
+      <!-- Transfer Metrics Summary Grid -->
+      <section aria-label="إحصائيات النقل" class="grid grid-cols-2 gap-gutter-md items-stretch">
+        <div class="h-full rounded-lg bg-surface-container border border-outline-variant p-gutter-lg flex flex-col gap-gutter-xs">
+          <span class="font-label text-label-md text-on-surface-variant" data-design-text-token="label-md">الحجم الإجمالي</span>
+          <span class="font-mono text-mono-lg text-primary tabular-nums" data-design-text-token="mono-lg">2.09 GB</span>
+          <span class="font-body text-body-md text-on-surface-variant" data-design-text-token="body-md">4 عناصر مرسلة ومستقبلة</span>
+        </div>
+
+        <div class="h-full rounded-lg bg-surface-container border border-outline-variant p-gutter-lg flex flex-col gap-gutter-xs">
+          <span class="font-label text-label-md text-on-surface-variant" data-design-text-token="label-md">أقصى سرعة</span>
+          <span class="font-mono text-mono-lg text-on-surface tabular-nums" data-design-text-token="mono-lg">122 MB/s</span>
+          <span class="font-body text-body-md text-on-surface-variant" data-design-text-token="body-md">خلال 01:14 دقيقة فقط</span>
+        </div>
+      </section>
+
+      <!-- Completed Items Breakdown -->
+      <section aria-label="تفاصيل العناصر المنقولة" class="rounded-lg bg-surface-container border border-outline-variant divide-y divide-outline-variant">
+        <div class="p-gutter-lg flex items-center justify-between gap-gutter-md">
+          <div class="flex items-center gap-gutter-md min-w-0">
+            <span class="material-symbols-outlined text-primary text-[22px] shrink-0" aria-hidden="true">arrow_upward</span>
+            <div class="flex flex-col min-w-0">
+              <span class="font-title text-title-md text-on-surface" data-design-text-token="title-md">تم إرسالها</span>
+              <span class="font-body text-body-md text-on-surface-variant" data-design-text-token="body-md">مجلد مشاريع التصميم + فيديو 4K</span>
+            </div>
+          </div>
+          <span class="font-mono text-mono-sm text-primary tabular-nums shrink-0" data-design-text-token="mono-sm">1.76 GB</span>
+        </div>
+
+        <div class="p-gutter-lg flex items-center justify-between gap-gutter-md">
+          <div class="flex items-center gap-gutter-md min-w-0">
+            <span class="material-symbols-outlined text-secondary text-[22px] shrink-0" aria-hidden="true">arrow_downward</span>
+            <div class="flex flex-col min-w-0">
+              <span class="font-title text-title-md text-on-surface" data-design-text-token="title-md">تم استقبالها</span>
+              <span class="font-body text-body-md text-on-surface-variant" data-design-text-token="body-md">ملفات الاجتماع + العرض التقديمي</span>
+            </div>
+          </div>
+          <span class="font-mono text-mono-sm text-secondary tabular-nums shrink-0" data-design-text-token="mono-sm">258 MB</span>
+        </div>
+      </section>
+
+      <!-- Primary & Secondary Actions -->
+      <div class="flex flex-col gap-gutter-sm pt-gutter-sm">
+        <!-- COMPONENT: button-with-icon -->
+        <button data-component-id="button-with-icon" data-component-type="button" data-component-variant="with-icon" type="button" class="w-full inline-flex items-center justify-center gap-gutter-sm px-gutter-xl py-gutter-md rounded-md bg-primary text-on-primary font-label text-label-lg transition-colors duration-state-change ease-state-change hover:bg-primary-container hover:text-on-primary-container focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">
+          <span class="material-symbols-outlined text-[20px]" aria-hidden="true">add</span>
+          <span data-design-text-token="label-lg">إرسال ملفات أخرى</span>
+        </button>
+
+        <!-- COMPONENT: button-secondary -->
+        <button data-component-id="button-secondary" data-component-type="button" data-component-variant="secondary" type="button" class="w-full inline-flex items-center justify-center px-gutter-xl py-gutter-md rounded-md bg-secondary-container text-on-secondary-container border border-outline-variant font-label text-label-lg transition-colors duration-state-change ease-state-change hover:bg-surface-container-highest focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">
+          <span data-design-text-token="label-lg">العودة إلى الرئيسية</span>
+        </button>
+      </div>
+
+    </main>
+
+  </div>
+
+
+
+</body></html>

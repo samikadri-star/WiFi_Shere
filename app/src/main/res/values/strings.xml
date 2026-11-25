@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">واي فاي شير</string>
+    <string name="cd_back">العودة</string>
+    <string name="cd_close">إغلاق</string>
+    <string name="cd_qr_scan">مسح رمز QR للارتباط السريع</string>
+    <string name="cd_settings">الإعدادات</string>
+    <string name="cd_flash">تشغيل الفلاش</string>
+    <string name="cd_search">بحث عن ملف أو مجلد</string>
+    <string name="cd_pause">إيقاف مؤقت</string>
+    <string name="cd_resume">استكمال</string>
+    <string name="cd_edit_device_name">تعديل اسم الجهاز</string>
+</resources>

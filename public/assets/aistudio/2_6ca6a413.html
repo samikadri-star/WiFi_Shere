@@ -1,0 +1,324 @@
+<!DOCTYPE html><html lang="ar" dir="rtl" class="dark"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>واي فاي شير — الرئيسية</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'primary': '#4EDEA3',
+        'on-primary': '#003824',
+        'primary-container': '#10B981',
+        'on-primary-container': '#00291A',
+        'secondary': '#9ED2B5',
+        'on-secondary': '#013824',
+        'secondary-container': '#21523C',
+        'on-secondary-container': '#C8FDDE',
+        'tertiary': '#FFB3AF',
+        'on-tertiary': '#650911',
+        'tertiary-container': '#842225',
+        'on-tertiary-container': '#FFDAD7',
+        'success': '#26C289',
+        'on-success': '#002113',
+        'warning': '#FBBF24',
+        'on-warning': '#291800',
+        'error': '#FFB4AB',
+        'on-error': '#690005',
+        'error-container': '#93000A',
+        'on-error-container': '#FFDAD6',
+        'background': '#0E1511',
+        'on-background': '#DDE4DD',
+        'surface': '#0E1511',
+        'surface-dim': '#09100C',
+        'surface-bright': '#343B36',
+        'surface-container-lowest': '#09100C',
+        'surface-container-low': '#161D19',
+        'surface-container': '#1A211D',
+        'surface-container-high': '#242C27',
+        'surface-container-highest': '#2F3632',
+        'on-surface': '#DDE4DD',
+        'surface-variant': '#3C4A42',
+        'on-surface-variant': '#BBCABF',
+        'outline': '#86948A',
+        'outline-variant': '#3C4A42',
+        'inverse-surface': '#DDE4DD',
+        'inverse-on-surface': '#2B322D',
+        'inverse-primary': '#006C49',
+      },
+      borderRadius: {
+        'sm': '6px',
+        'DEFAULT': '12px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '24px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '12px',
+        'gutter-lg': '16px',
+        'gutter-xl': '24px',
+        'section': '32px',
+        'page-margin': '16px',
+      },
+      fontFamily: {
+        'display': ['"Cairo"', 'sans-serif'],
+        'headline': ['"Cairo"', 'sans-serif'],
+        'title': ['"Cairo"', 'sans-serif'],
+        'body': ['"Cairo"', 'sans-serif'],
+        'label': ['"Cairo"', 'sans-serif'],
+        'mono': ['"JetBrains Mono"', 'monospace'],
+      },
+      fontSize: {
+        'display-lg': ['36px', { lineHeight: '44px', letterSpacing: '0px', fontWeight: '700' }],
+        'display-lg-mobile': ['28px', { lineHeight: '36px', letterSpacing: '0px', fontWeight: '700' }],
+        'headline-lg': ['24px', { lineHeight: '32px', letterSpacing: '0px', fontWeight: '700' }],
+        'headline-md': ['20px', { lineHeight: '28px', letterSpacing: '0px', fontWeight: '700' }],
+        'title-lg': ['18px', { lineHeight: '26px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-md': ['16px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '600' }],
+        'body-lg': ['16px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-md': ['14px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '400' }],
+        'label-lg': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '600' }],
+        'label-md': ['12px', { lineHeight: '16px', letterSpacing: '0px', fontWeight: '600' }],
+        'mono-lg': ['20px', { lineHeight: '28px', letterSpacing: '0px', fontWeight: '600' }],
+        'mono-sm': ['12px', { lineHeight: '16px', letterSpacing: '0px', fontWeight: '500' }],
+      },
+      transitionDuration: {
+        'state-change': '120ms',
+        'surface-enter': '240ms',
+        'surface-exit': '160ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'surface-exit': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'ease-out',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-exit': 'cubic-bezier(0.3, 0, 1, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>.material-symbols-outlined, .material-symbols-rounded, .material-symbols-sharp, .material-icons { display: inline-block; width: 1em; height: 1em; line-height: 1 !important; box-sizing: content-box; overflow: hidden; white-space: nowrap; direction: ltr; vertical-align: middle; }</style>
+</head>
+<body class="bg-surface text-on-surface font-body antialiased selection:bg-primary selection:text-on-primary">
+
+  <div class="min-h-[884px] flex flex-col bg-surface text-on-surface max-w-md mx-auto" data-stitch-vh="min-h-[884px]===min-h-screen">
+
+    <!-- Sticky App Header -->
+    <header class="sticky top-0 z-20 bg-surface border-b border-outline-variant px-page-margin py-gutter-md flex items-center justify-between gap-gutter-md">
+      <div class="flex items-center gap-gutter-md">
+        <div class="w-10 h-10 rounded-md bg-secondary-container text-primary flex items-center justify-center border border-outline-variant">
+          <span class="material-symbols-outlined text-[22px]" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">wifi_tethering</span>
+        </div>
+        <div class="flex flex-col">
+          <h1 class="font-headline text-title-lg text-on-surface leading-tight" data-design-text-token="title-lg">واي فاي شير</h1>
+          <div class="flex items-center gap-gutter-xs">
+            <span class="w-2 h-2 rounded-full bg-success" aria-hidden="true"></span>
+            <span class="font-label text-label-md text-secondary" data-design-text-token="label-md">نقطة الاتصال نشطة</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-gutter-sm">
+        <!-- Band indicator badge -->
+        <span data-component-id="badge-band" data-component-type="badge" data-component-variant="band" role="status" class="inline-flex items-center gap-gutter-xs px-gutter-md py-gutter-xs rounded-full bg-surface-container-high border border-outline-variant text-primary font-mono text-mono-sm tabular-nums">
+          <span class="material-symbols-outlined text-[14px]" aria-hidden="true">bolt</span>
+          <span data-design-text-token="mono-sm">5 GHz</span>
+        </span>
+
+        <!-- COMPONENT: button-icon -->
+        <button data-component-id="button-icon" data-component-type="button" data-component-variant="icon" type="button" aria-label="مسح رمز QR للارتباط السريع" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-surface-container-high text-on-surface border border-outline-variant transition-colors duration-state-change ease-state-change hover:bg-surface-container-highest hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">
+          <span class="material-symbols-outlined text-[20px]" aria-hidden="true">qr_code_scanner</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 px-page-margin py-gutter-lg flex flex-col gap-gutter-xl">
+
+      <!-- Quick Send & Receive Hero Grid -->
+      <section aria-label="إجراءات النقل السريعة" class="flex flex-col gap-gutter-md">
+        <div class="grid grid-cols-2 gap-gutter-md items-stretch">
+          <!-- Send Action Card -->
+          <!-- COMPONENT: card-interactive-primary -->
+          <div role="button" tabindex="0" data-component-id="card-interactive-primary" data-component-type="card" data-component-variant="interactive-primary" class="h-full rounded-xl bg-primary-container text-on-primary-container p-gutter-lg flex flex-col justify-between gap-gutter-lg cursor-pointer transition-colors duration-state-change ease-state-change hover:bg-primary hover:text-on-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">
+            <div class="flex items-center justify-between">
+              <div class="w-11 h-11 rounded-full bg-on-primary-container/15 flex items-center justify-center">
+                <span class="material-symbols-outlined text-[24px]" aria-hidden="true">arrow_upward</span>
+              </div>
+              <span class="font-mono text-mono-sm tabular-nums opacity-85" data-design-text-token="mono-sm">MAX</span>
+            </div>
+            <div class="flex flex-col gap-gutter-xs">
+              <h2 class="font-headline text-headline-md" data-design-text-token="headline-md">إرسال</h2>
+              <p class="font-body text-body-md opacity-90" data-design-text-token="body-md">ملفات ومجلدات بأقصى سرعة</p>
+            </div>
+          </div>
+
+          <!-- Receive Action Card -->
+          <!-- COMPONENT: card-interactive-2 -->
+          <div role="button" tabindex="0" data-component-id="card-interactive-2" data-component-type="card" data-component-variant="interactive" class="h-full rounded-xl bg-surface-container-high text-on-surface border border-outline-variant p-gutter-lg flex flex-col justify-between gap-gutter-lg cursor-pointer transition-colors duration-state-change ease-state-change hover:border-primary hover:bg-surface-container-highest focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">
+            <div class="flex items-center justify-between">
+              <div class="w-11 h-11 rounded-full bg-secondary-container text-primary flex items-center justify-center">
+                <span class="material-symbols-outlined text-[24px]" aria-hidden="true">arrow_downward</span>
+              </div>
+              <!-- COMPONENT: badge-dot -->
+              <span data-component-id="badge-dot" data-component-type="badge" data-component-variant="dot" role="status" aria-label="جاهز للاستقبال" class="inline-block w-2.5 h-2.5 rounded-full bg-success"></span>
+            </div>
+            <div class="flex flex-col gap-gutter-xs">
+              <h2 class="font-headline text-headline-md text-on-surface" data-design-text-token="headline-md">استقبال</h2>
+              <p class="font-body text-body-md text-on-surface-variant" data-design-text-token="body-md">جاهز لاستقبال الملفات فوراً</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Simultaneous Send & Receive Status Strip -->
+        <div class="rounded-lg bg-surface-container border border-outline-variant px-gutter-lg py-gutter-md flex items-center justify-between gap-gutter-md">
+          <div class="flex items-center gap-gutter-md">
+            <span class="material-symbols-outlined text-primary text-[20px]" aria-hidden="true">sync_alt</span>
+            <div class="flex flex-col">
+              <span class="font-label text-label-lg text-on-surface" data-design-text-token="label-lg">إرسال واستقبال في نفس الوقت</span>
+              <span class="font-body text-body-md text-on-surface-variant" data-design-text-token="body-md">قناة ثنائية الاتجاه نشطة تلقائياً</span>
+            </div>
+          </div>
+          <span class="font-mono text-mono-sm text-primary tabular-nums" data-design-text-token="mono-sm">118 MB/s</span>
+        </div>
+      </section>
+
+      <!-- Resume Interrupted Transfer Section -->
+      <section aria-label="استكمال الإرسال" class="flex flex-col gap-gutter-md">
+        <div class="flex items-center justify-between">
+          <h2 class="font-headline text-title-lg text-on-surface" data-design-text-token="title-lg">استكمال الإرسال</h2>
+          <span class="font-label text-label-md text-on-surface-variant" data-design-text-token="label-md">متوقف مؤقتاً</span>
+        </div>
+
+        <!-- COMPONENT: card-action -->
+        <article data-component-id="card-action" data-component-type="card" data-component-variant="action" class="rounded-lg bg-surface-container border border-outline-variant p-gutter-lg flex flex-col gap-gutter-md">
+          <header class="flex items-center justify-between gap-gutter-md">
+            <div class="flex items-center gap-gutter-md min-w-0">
+              <div class="w-10 h-10 rounded-md bg-surface-container-high text-primary flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-[22px]" aria-hidden="true">folder_zip</span>
+              </div>
+              <div class="flex flex-col min-w-0">
+                <h3 class="font-title text-title-md text-on-surface" data-design-text-token="title-md">مجلد صور الرحلة</h3>
+                <p class="font-mono text-mono-sm text-on-surface-variant tabular-nums" data-design-text-token="mono-sm">1.4 GB / 2.1 GB • Galaxy S24</p>
+              </div>
+            </div>
+            <span class="font-mono text-mono-sm text-primary tabular-nums shrink-0" data-design-text-token="mono-sm">68%</span>
+          </header>
+
+          <!-- Progress Track -->
+          <div class="w-full h-2 rounded-full bg-surface-container-highest overflow-hidden" role="progressbar" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100">
+            <div class="h-full bg-primary rounded-full w-2/3"></div>
+          </div>
+
+          <footer class="flex items-center justify-between gap-gutter-sm pt-gutter-xs">
+            <span class="font-body text-body-md text-on-surface-variant" data-design-text-token="body-md">سيتم الإكمال من آخر نقطة توقف</span>
+            <!-- COMPONENT: button-with-icon -->
+            <button data-component-id="button-with-icon" data-component-type="button" data-component-variant="with-icon" type="button" class="inline-flex items-center justify-center gap-gutter-xs px-gutter-lg py-gutter-sm rounded-md bg-primary text-on-primary font-label text-label-lg transition-colors duration-state-change ease-state-change hover:bg-primary-container hover:text-on-primary-container focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary shrink-0">
+              <span class="material-symbols-outlined text-[18px]" aria-hidden="true">play_arrow</span>
+              <span data-design-text-token="label-lg">استكمال</span>
+            </button>
+          </footer>
+        </article>
+      </section>
+
+      <!-- Nearby Devices & One-Time Pairing Section -->
+      <section aria-label="الأجهزة القريبة والارتباط لمرة واحدة" class="flex flex-col gap-gutter-md">
+        <div class="flex items-center justify-between gap-gutter-sm">
+          <h2 class="font-headline text-title-lg text-on-surface" data-design-text-token="title-lg">الأجهزة القريبة</h2>
+          <button type="button" class="inline-flex items-center gap-gutter-xs text-primary font-label text-label-md hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary rounded-sm">
+            <span class="material-symbols-outlined text-[16px]" aria-hidden="true">qr_code_scanner</span>
+            <span data-design-text-token="label-md">ربط عبر QR</span>
+          </button>
+        </div>
+
+        <div class="flex flex-col gap-gutter-sm">
+          <!-- Paired Once Device -->
+          <!-- COMPONENT: card-elevated -->
+          <article data-component-id="card-elevated" data-component-type="card" data-component-variant="elevated" class="rounded-lg bg-surface-container border border-outline-variant p-gutter-lg flex items-center justify-between gap-gutter-md">
+            <div class="flex items-center gap-gutter-md min-w-0">
+              <div class="w-11 h-11 rounded-full bg-secondary-container text-primary flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-[22px]" aria-hidden="true">smartphone</span>
+              </div>
+              <div class="flex flex-col gap-gutter-xs min-w-0">
+                <h3 class="font-title text-title-md text-on-surface" data-design-text-token="title-md">هاتف سارة — Galaxy S24</h3>
+                <div class="flex items-center gap-gutter-sm">
+                  <!-- COMPONENT: badge-status -->
+                  <span data-component-id="badge-status" data-component-type="badge" data-component-variant="status" role="status" class="inline-flex items-center gap-gutter-xs px-gutter-sm py-gutter-xs rounded-full bg-secondary-container text-on-secondary-container font-label text-label-md">
+                    <span class="material-symbols-outlined text-[14px] text-primary" aria-hidden="true">verified</span>
+                    <span data-design-text-token="label-md">مرتبط لمرة واحدة</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- COMPONENT: button-secondary -->
+            <button data-component-id="button-secondary" data-component-type="button" data-component-variant="secondary" type="button" class="inline-flex items-center justify-center px-gutter-lg py-gutter-sm rounded-md bg-secondary-container text-on-secondary-container border border-outline-variant font-label text-label-lg transition-colors duration-state-change ease-state-change hover:bg-surface-container-highest focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary shrink-0">
+              <span data-design-text-token="label-lg">إرسال</span>
+            </button>
+          </article>
+
+          <!-- Auto-Discovered Nearby Device -->
+          <!-- COMPONENT: card-elevated -->
+          <article data-component-id="card-elevated" data-component-type="card" data-component-variant="elevated" class="rounded-lg bg-surface-container border border-outline-variant p-gutter-lg flex items-center justify-between gap-gutter-md">
+            <div class="flex items-center gap-gutter-md min-w-0">
+              <div class="w-11 h-11 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-[22px]" aria-hidden="true">laptop_mac</span>
+              </div>
+              <div class="flex flex-col gap-gutter-xs min-w-0">
+                <h3 class="font-title text-title-md text-on-surface" data-design-text-token="title-md">لابتوب أحمد — MateBook</h3>
+                <p class="font-body text-body-md text-on-surface-variant" data-design-text-token="body-md">مكتشف تلقائياً • قريب جداً</p>
+              </div>
+            </div>
+
+            <!-- COMPONENT: button-primary -->
+            <button data-component-id="button-primary" data-component-type="button" data-component-variant="primary" type="button" class="inline-flex items-center justify-center px-gutter-lg py-gutter-sm rounded-md bg-primary text-on-primary font-label text-label-lg transition-colors duration-state-change ease-state-change hover:bg-primary-container hover:text-on-primary-container focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary shrink-0">
+              <span data-design-text-token="label-lg">ربط</span>
+            </button>
+          </article>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sticky Bottom Navigation -->
+    <nav aria-label="التنقل الرئيسي" class="sticky bottom-0 z-20 bg-surface-container-low border-t border-outline-variant px-gutter-lg py-gutter-sm grid grid-cols-3 gap-gutter-sm">
+      <a href="#home" aria-current="page" class="flex flex-col items-center justify-center gap-gutter-xs py-gutter-xs rounded-md text-primary bg-secondary-container/50">
+        <span class="material-symbols-outlined text-[22px]" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">wifi_tethering</span>
+        <span class="font-label text-label-md" data-design-text-token="label-md">الرئيسية</span>
+      </a>
+
+      <a href="#transfers" class="relative flex flex-col items-center justify-center gap-gutter-xs py-gutter-xs rounded-md text-on-surface-variant hover:text-on-surface transition-colors duration-state-change">
+        <div class="relative inline-flex items-center justify-center">
+          <span class="material-symbols-outlined text-[22px]" aria-hidden="true">swap_vert</span>
+          <!-- COMPONENT: badge-numeric -->
+          <span data-component-id="badge-numeric" data-component-type="badge" data-component-variant="numeric" role="status" aria-label="عمليتا نقل نشطتان" class="absolute -top-1.5 -left-3 inline-flex items-center justify-center min-w-4 h-4 px-gutter-xs rounded-full bg-primary text-on-primary font-mono text-mono-sm tabular-nums">
+            <span data-design-text-token="mono-sm">2</span>
+          </span>
+        </div>
+        <span class="font-label text-label-md" data-design-text-token="label-md">النقل النشط</span>
+      </a>
+
+      <a href="#devices" class="flex flex-col items-center justify-center gap-gutter-xs py-gutter-xs rounded-md text-on-surface-variant hover:text-on-surface transition-colors duration-state-change">
+        <span class="material-symbols-outlined text-[22px]" aria-hidden="true">devices</span>
+        <span class="font-label text-label-md" data-design-text-token="label-md">الأجهزة</span>
+      </a>
+    </nav>
+
+  </div>
+
+
+
+</body></html>

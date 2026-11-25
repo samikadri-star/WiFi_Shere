@@ -1,0 +1,6 @@
+{
+  "name": "واي فاي شير",
+  "description": "تطبيق مشاركة الملفات والمجلدات فائق السرعة عبر نقطة الاتصال Wi-Fi Hotspot مع دعم الإرسال والاستقبال المتزامن، واستكمال النقل المتوقف، والربط السريع لمرة واحدة عبر رمز QR.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
