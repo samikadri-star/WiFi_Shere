@@ -49,7 +49,6 @@ import com.example.domain.model.TransferSummaryData
 import com.example.ui.components.ContextualTopAppBar
 import com.example.ui.components.VerifiedStatusBadge
 import com.example.ui.theme.MonoTypography
-import com.example.ui.theme.ObsidianSurfaceContainer
 import com.example.util.FormatUtils
 
 @Composable
@@ -138,7 +137,7 @@ fun TransferSummaryScreen(
                             .weight(1f)
                             .fillMaxHeight(),
                         shape = RoundedCornerShape(16.dp),
-                        color = ObsidianSurfaceContainer,
+                        color = MaterialTheme.colorScheme.surfaceContainer,
                         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                     ) {
                         Column(
@@ -168,7 +167,7 @@ fun TransferSummaryScreen(
                             .weight(1f)
                             .fillMaxHeight(),
                         shape = RoundedCornerShape(16.dp),
-                        color = ObsidianSurfaceContainer,
+                        color = MaterialTheme.colorScheme.surfaceContainer,
                         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                     ) {
                         Column(
@@ -198,7 +197,7 @@ fun TransferSummaryScreen(
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
-                    color = ObsidianSurfaceContainer,
+                    color = MaterialTheme.colorScheme.surfaceContainer,
                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                 ) {
                     Column {

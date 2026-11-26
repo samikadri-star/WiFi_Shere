@@ -1,9 +1,12 @@
 package com.example
 
 import com.example.data.local.entity.TransferEntity
+import com.example.domain.model.AppSettings
+import com.example.domain.model.AppThemeMode
 import com.example.domain.model.TransferStatus
 import com.example.util.FormatUtils
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class WiFiShareUnitTest {
@@ -39,5 +42,13 @@ class WiFiShareUnitTest {
         )
         assertEquals(68, entity.progressPercent)
         assertEquals(0.68f, entity.progressFraction, 0.001f)
+    }
+
+    @Test
+    fun `app settings defaults to emerald theme and turbo max speed enabled`() {
+        val defaults = AppSettings()
+        assertEquals(AppThemeMode.EMERALD, defaults.themeMode)
+        assertTrue(defaults.turboMaxSpeed)
+        assertEquals("الأزرق الداكن", AppThemeMode.BLUE.labelAr)
     }
 }

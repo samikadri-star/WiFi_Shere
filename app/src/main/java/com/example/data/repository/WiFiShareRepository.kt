@@ -86,6 +86,7 @@ class WiFiShareRepository(
         scope.launch {
             val identity = settingsDataStore.ensureIdentityInitialized()
             hotspotManager.updatePreferredBand(identity.prefer5Ghz)
+            transferEngine.setTurboMaxSpeed(identity.turboMaxSpeed)
             transferEngine.startServer { boundPort ->
                 hotspotManager.updateServerPort(boundPort)
                 hotspotManager.startNsdAdvertisingAndDiscovery(
@@ -288,6 +289,15 @@ class WiFiShareRepository(
 
     suspend fun updateAutoResume(enabled: Boolean) {
         settingsDataStore.updateAutoResume(enabled)
+    }
+
+    suspend fun updateTurboMaxSpeed(enabled: Boolean) {
+        settingsDataStore.updateTurboMaxSpeed(enabled)
+        transferEngine.setTurboMaxSpeed(enabled)
+    }
+
+    suspend fun updateThemeMode(mode: com.example.domain.model.AppThemeMode) {
+        settingsDataStore.updateThemeMode(mode)
     }
 
     suspend fun updateSaveFolderPath(path: String) {

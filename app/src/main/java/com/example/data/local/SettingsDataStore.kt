@@ -25,6 +25,8 @@ class SettingsDataStore(private val context: Context) {
         val PREFER_5GHZ = booleanPreferencesKey("prefer_5ghz")
         val SIMULTANEOUS_TRANSFER = booleanPreferencesKey("simultaneous_transfer")
         val AUTO_RESUME = booleanPreferencesKey("auto_resume")
+        val TURBO_MAX_SPEED = booleanPreferencesKey("turbo_max_speed")
+        val THEME_MODE = stringPreferencesKey("theme_mode")
         val SAVE_FOLDER_PATH = stringPreferencesKey("save_folder_path")
     }
 
@@ -32,6 +34,12 @@ class SettingsDataStore(private val context: Context) {
         get() = "جهازي — ${Build.MODEL ?: "Android"}"
 
     val settingsFlow: Flow<AppSettings> = context.settingsDataStore.data.map { prefs ->
+        val rawTheme = prefs[Keys.THEME_MODE]
+        val theme = runCatching {
+            if (rawTheme != null) com.example.domain.model.AppThemeMode.valueOf(rawTheme)
+            else com.example.domain.model.AppThemeMode.EMERALD
+        }.getOrDefault(com.example.domain.model.AppThemeMode.EMERALD)
+
         AppSettings(
             deviceId = prefs[Keys.DEVICE_ID].orEmpty(),
             deviceName = prefs[Keys.DEVICE_NAME] ?: defaultDeviceName,
@@ -39,6 +47,8 @@ class SettingsDataStore(private val context: Context) {
             prefer5Ghz = prefs[Keys.PREFER_5GHZ] ?: true,
             simultaneousTransfer = prefs[Keys.SIMULTANEOUS_TRANSFER] ?: true,
             autoResume = prefs[Keys.AUTO_RESUME] ?: true,
+            turboMaxSpeed = prefs[Keys.TURBO_MAX_SPEED] ?: true,
+            themeMode = theme,
             saveFolderPath = prefs[Keys.SAVE_FOLDER_PATH] ?: "/Download/WiFiShare",
         )
     }
@@ -83,6 +93,18 @@ class SettingsDataStore(private val context: Context) {
     suspend fun updateAutoResume(enabled: Boolean) {
         context.settingsDataStore.edit { prefs ->
             prefs[Keys.AUTO_RESUME] = enabled
+        }
+    }
+
+    suspend fun updateTurboMaxSpeed(enabled: Boolean) {
+        context.settingsDataStore.edit { prefs ->
+            prefs[Keys.TURBO_MAX_SPEED] = enabled
+        }
+    }
+
+    suspend fun updateThemeMode(mode: com.example.domain.model.AppThemeMode) {
+        context.settingsDataStore.edit { prefs ->
+            prefs[Keys.THEME_MODE] = mode.name
         }
     }
 

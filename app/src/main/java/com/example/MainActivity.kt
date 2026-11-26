@@ -45,10 +45,10 @@ import com.example.ui.screens.QrPairingScreen
 import com.example.ui.screens.SettingsScreen
 import com.example.ui.screens.TransferSummaryScreen
 import com.example.ui.screens.TransfersScreen
-import com.example.ui.theme.EmeraldPrimary
+import androidx.compose.material3.MaterialTheme
+import com.example.domain.model.AppThemeMode
+import com.example.ui.theme.BlueBackground
 import com.example.ui.theme.ObsidianBackground
-import com.example.ui.theme.ObsidianOnSurface
-import com.example.ui.theme.ObsidianSurfaceContainerHigh
 import com.example.ui.theme.WiFiShareTheme
 import com.example.ui.viewmodel.FilePickerViewModel
 import com.example.ui.viewmodel.MainViewModel
@@ -61,8 +61,21 @@ class MainActivity : ComponentActivity() {
             navigationBarStyle = SystemBarStyle.dark(ObsidianBackground.toArgb()),
         )
         setContent {
-            WiFiShareTheme {
-                WiFiShareAppRoot()
+            val mainViewModel: MainViewModel = viewModel()
+            val shellState by mainViewModel.shellState.collectAsStateWithLifecycle()
+            val barColor = if (shellState.settings.themeMode == AppThemeMode.BLUE) {
+                BlueBackground.toArgb()
+            } else {
+                ObsidianBackground.toArgb()
+            }
+            LaunchedEffect(shellState.settings.themeMode) {
+                enableEdgeToEdge(
+                    statusBarStyle = SystemBarStyle.dark(barColor),
+                    navigationBarStyle = SystemBarStyle.dark(barColor),
+                )
+            }
+            WiFiShareTheme(themeMode = shellState.settings.themeMode) {
+                WiFiShareAppRoot(mainViewModel = mainViewModel)
             }
         }
     }
@@ -255,9 +268,11 @@ fun WiFiShareAppRoot(
                     pairedCount = devicesState.pairedDevices.size,
                     onBackClick = { navController.popBackStack() },
                     onUpdateDeviceName = mainViewModel::updateDeviceName,
+                    onSelectTheme = mainViewModel::updateThemeMode,
                     onTogglePrefer5Ghz = mainViewModel::updatePrefer5Ghz,
                     onToggleSimultaneous = mainViewModel::updateSimultaneousTransfer,
                     onToggleAutoResume = mainViewModel::updateAutoResume,
+                    onToggleTurboMaxSpeed = mainViewModel::updateTurboMaxSpeed,
                     onOpenPairedDevices = {
                         navController.popBackStack()
                         navigateTab(BottomNavTab.DEVICES)
@@ -314,9 +329,9 @@ fun WiFiShareAppRoot(
         ) { data ->
             Snackbar(
                 snackbarData = data,
-                containerColor = ObsidianSurfaceContainerHigh,
-                contentColor = ObsidianOnSurface,
-                actionColor = EmeraldPrimary,
+                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                contentColor = MaterialTheme.colorScheme.onSurface,
+                actionColor = MaterialTheme.colorScheme.primary,
             )
         }
     }

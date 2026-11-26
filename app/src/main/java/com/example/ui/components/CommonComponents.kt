@@ -65,10 +65,6 @@ import com.example.domain.model.NearbyDevice
 import com.example.ui.theme.EmeraldSuccess
 import com.example.ui.theme.EmeraldWarning
 import com.example.ui.theme.MonoTypography
-import com.example.ui.theme.ObsidianSurfaceContainer
-import com.example.ui.theme.ObsidianSurfaceContainerHigh
-import com.example.ui.theme.ObsidianSurfaceContainerHighest
-import com.example.ui.theme.ObsidianSurfaceContainerLow
 import com.example.util.FormatUtils
 
 enum class BottomNavTab {
@@ -158,7 +154,7 @@ fun MainTopAppBar(
             ) {
                 Surface(
                     shape = CircleShape,
-                    color = ObsidianSurfaceContainerHigh,
+                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                 ) {
                     Row(
@@ -264,7 +260,7 @@ fun CircleIconButton(
     onClick: () -> Unit,
     testTag: String,
     tint: Color = MaterialTheme.colorScheme.onSurface,
-    containerColor: Color = ObsidianSurfaceContainerHigh,
+    containerColor: Color = MaterialTheme.colorScheme.surfaceContainerHigh,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -297,7 +293,7 @@ fun WiFiShareBottomBar(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(ObsidianSurfaceContainerLow),
+            .background(MaterialTheme.colorScheme.surfaceContainerLow),
     ) {
         HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant, thickness = 1.dp)
         Row(
@@ -442,7 +438,7 @@ fun DeviceRowCard(
     Surface(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        color = ObsidianSurfaceContainer,
+        color = MaterialTheme.colorScheme.surfaceContainer,
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
     ) {
         Row(
@@ -463,7 +459,7 @@ fun DeviceRowCard(
                         .clip(CircleShape)
                         .background(
                             if (device.isPaired) MaterialTheme.colorScheme.secondaryContainer
-                            else ObsidianSurfaceContainerHigh,
+                            else MaterialTheme.colorScheme.surfaceContainerHigh,
                         ),
                     contentAlignment = Alignment.Center,
                 ) {
@@ -549,7 +545,7 @@ fun ResumableTransferCard(
     Surface(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        color = ObsidianSurfaceContainer,
+        color = MaterialTheme.colorScheme.surfaceContainer,
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
     ) {
         Column(
@@ -572,7 +568,7 @@ fun ResumableTransferCard(
                         modifier = Modifier
                             .size(40.dp)
                             .clip(RoundedCornerShape(12.dp))
-                            .background(ObsidianSurfaceContainerHigh),
+                            .background(MaterialTheme.colorScheme.surfaceContainerHigh),
                         contentAlignment = Alignment.Center,
                     ) {
                         Icon(
@@ -659,7 +655,7 @@ fun EmeraldProgressBar(
             .fillMaxWidth()
             .height(8.dp)
             .clip(CircleShape)
-            .background(ObsidianSurfaceContainerHighest),
+            .background(MaterialTheme.colorScheme.surfaceContainerHighest),
     ) {
         Box(
             modifier = Modifier

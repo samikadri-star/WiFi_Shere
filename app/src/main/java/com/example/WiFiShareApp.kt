@@ -18,6 +18,7 @@ class WiFiShareApp : Application() {
             fileScanner = fileScanner,
             transferDao = database.transferDao(),
             pairedDeviceDao = database.pairedDeviceDao(),
+            onWifiPerformanceLockChanged = hotspotManager::setHighPerformanceWifiLock,
         )
     }
     val repository: WiFiShareRepository by lazy {

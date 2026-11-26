@@ -52,13 +52,19 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.border
+import androidx.compose.material.icons.outlined.Code
+import androidx.compose.material.icons.outlined.Palette
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.ui.text.style.TextAlign
 import com.example.R
 import com.example.domain.model.AppSettings
+import com.example.domain.model.AppThemeMode
 import com.example.ui.components.CircleIconButton
 import com.example.ui.components.ContextualTopAppBar
+import com.example.ui.theme.BluePrimary
+import com.example.ui.theme.EmeraldPrimary
 import com.example.ui.theme.MonoTypography
-import com.example.ui.theme.ObsidianSurfaceContainer
-import com.example.ui.theme.ObsidianSurfaceContainerHigh
 
 @Composable
 fun SettingsScreen(
@@ -66,9 +72,11 @@ fun SettingsScreen(
     pairedCount: Int,
     onBackClick: () -> Unit,
     onUpdateDeviceName: (String) -> Unit,
+    onSelectTheme: (AppThemeMode) -> Unit,
     onTogglePrefer5Ghz: (Boolean) -> Unit,
     onToggleSimultaneous: (Boolean) -> Unit,
     onToggleAutoResume: (Boolean) -> Unit,
+    onToggleTurboMaxSpeed: (Boolean) -> Unit,
     onOpenPairedDevices: () -> Unit,
     onClearPairings: () -> Unit,
     modifier: Modifier = Modifier,
@@ -101,7 +109,7 @@ fun SettingsScreen(
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
-                    color = ObsidianSurfaceContainer,
+                    color = MaterialTheme.colorScheme.surfaceContainer,
                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                 ) {
                     Row(
@@ -153,6 +161,52 @@ fun SettingsScreen(
                 }
             }
 
+            // Theme Appearance Selector Section
+            item {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(6.dp),
+                        modifier = Modifier.padding(horizontal = 4.dp),
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Palette,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(18.dp),
+                        )
+                        Text(
+                            text = "المظهر والثيم",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.primary,
+                        )
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    ) {
+                        ThemeOptionCard(
+                            title = "الزمردي الداكن",
+                            subtitle = "الافتراضي",
+                            accentColor = EmeraldPrimary,
+                            selected = settings.themeMode == AppThemeMode.EMERALD,
+                            onClick = { onSelectTheme(AppThemeMode.EMERALD) },
+                            testTag = "theme_option_emerald",
+                            modifier = Modifier.weight(1f),
+                        )
+                        ThemeOptionCard(
+                            title = "الأزرق الداكن",
+                            subtitle = "ياقوتي مريح",
+                            accentColor = BluePrimary,
+                            selected = settings.themeMode == AppThemeMode.BLUE,
+                            onClick = { onSelectTheme(AppThemeMode.BLUE) },
+                            testTag = "theme_option_blue",
+                            modifier = Modifier.weight(1f),
+                        )
+                    }
+                }
+            }
+
             // Hotspot & Speed Settings Section
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -165,10 +219,18 @@ fun SettingsScreen(
                     Surface(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(24.dp),
-                        color = ObsidianSurfaceContainer,
+                        color = MaterialTheme.colorScheme.surfaceContainer,
                         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                     ) {
                         Column {
+                            SettingsToggleRow(
+                                title = "استغلال أقصى سرعة في الإرسال",
+                                subtitle = "مخزن TCP بحجم 1MB + قفل Wi-Fi عالي الأداء وتدفق متوازي",
+                                checked = settings.turboMaxSpeed,
+                                onCheckedChange = onToggleTurboMaxSpeed,
+                                testTag = "settings_turbo_speed_switch",
+                            )
+                            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
                             SettingsToggleRow(
                                 title = "تفضيل تردد 5 GHz تلقائياً",
                                 subtitle = "استغلال أقصى سرعة ممكنة لنقطة الاتصال",
@@ -209,7 +271,7 @@ fun SettingsScreen(
                     Surface(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(24.dp),
-                        color = ObsidianSurfaceContainer,
+                        color = MaterialTheme.colorScheme.surfaceContainer,
                         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                     ) {
                         Column {
@@ -245,7 +307,7 @@ fun SettingsScreen(
                         .clickable { showClearConfirmDialog = true }
                         .testTag("settings_clear_pairings_button"),
                     shape = RoundedCornerShape(16.dp),
-                    color = ObsidianSurfaceContainer,
+                    color = MaterialTheme.colorScheme.surfaceContainer,
                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                 ) {
                     Row(
@@ -270,6 +332,40 @@ fun SettingsScreen(
                     }
                 }
             }
+
+            // Developer Attribution Card
+            item {
+                Surface(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag("settings_developer_credit"),
+                    shape = RoundedCornerShape(16.dp),
+                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center,
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Code,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(18.dp),
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = stringResource(R.string.developer_credit),
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            textAlign = TextAlign.Center,
+                        )
+                    }
+                }
+            }
         }
     }
 
@@ -277,7 +373,7 @@ fun SettingsScreen(
         var nameInput by remember { mutableStateOf(settings.deviceName) }
         AlertDialog(
             onDismissRequest = { showRenameDialog = false },
-            containerColor = ObsidianSurfaceContainerHigh,
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
             title = {
                 Text("تعديل اسم الجهاز", style = MaterialTheme.typography.titleLarge)
             },
@@ -319,7 +415,7 @@ fun SettingsScreen(
     if (showClearConfirmDialog) {
         AlertDialog(
             onDismissRequest = { showClearConfirmDialog = false },
-            containerColor = ObsidianSurfaceContainerHigh,
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
             title = {
                 Text("مسح سجل الارتباطات؟", style = MaterialTheme.typography.titleLarge)
             },
@@ -355,7 +451,7 @@ fun SettingsScreen(
     if (showFolderInfoDialog) {
         AlertDialog(
             onDismissRequest = { showFolderInfoDialog = false },
-            containerColor = ObsidianSurfaceContainerHigh,
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
             title = {
                 Text("مجلد الحفظ الافتراضي", style = MaterialTheme.typography.titleLarge)
             },
@@ -420,10 +516,77 @@ private fun SettingsToggleRow(
                 checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
                 checkedTrackColor = MaterialTheme.colorScheme.primary,
                 uncheckedThumbColor = MaterialTheme.colorScheme.outline,
-                uncheckedTrackColor = ObsidianSurfaceContainerHigh,
+                uncheckedTrackColor = MaterialTheme.colorScheme.surfaceContainerHigh,
             ),
             modifier = Modifier.testTag(testTag),
         )
+    }
+}
+
+@Composable
+private fun ThemeOptionCard(
+    title: String,
+    subtitle: String,
+    accentColor: androidx.compose.ui.graphics.Color,
+    selected: Boolean,
+    onClick: () -> Unit,
+    testTag: String,
+    modifier: Modifier = Modifier,
+) {
+    Surface(
+        modifier = modifier
+            .minimumInteractiveComponentSize()
+            .clip(RoundedCornerShape(16.dp))
+            .clickable(onClick = onClick)
+            .testTag(testTag),
+        shape = RoundedCornerShape(16.dp),
+        color = if (selected) MaterialTheme.colorScheme.surfaceContainerHigh else MaterialTheme.colorScheme.surfaceContainer,
+        border = BorderStroke(
+            width = if (selected) 1.5.dp else 1.dp,
+            color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant,
+        ),
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(14.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                modifier = Modifier.weight(1f),
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clip(CircleShape)
+                        .background(accentColor)
+                        .border(2.dp, MaterialTheme.colorScheme.onSurface.copy(alpha = 0.25f), CircleShape),
+                )
+                Column {
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onSurface,
+                    )
+                    Text(
+                        text = subtitle,
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            }
+            if (selected) {
+                Icon(
+                    imageVector = Icons.Filled.CheckCircle,
+                    contentDescription = "محدد",
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(20.dp),
+                )
+            }
+        }
     }
 }
 

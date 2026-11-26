@@ -45,8 +45,6 @@ import com.example.ui.components.DeviceRowCard
 import com.example.ui.components.MainTopAppBar
 import com.example.ui.components.WiFiShareBottomBar
 import com.example.ui.theme.MonoTypography
-import com.example.ui.theme.ObsidianSurfaceContainer
-import com.example.ui.theme.ObsidianSurfaceContainerHigh
 import com.example.ui.viewmodel.DevicesUiState
 import com.example.ui.viewmodel.MainShellUiState
 
@@ -94,7 +92,7 @@ fun DevicesScreen(
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(24.dp),
-                    color = ObsidianSurfaceContainerHigh,
+                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                 ) {
                     Column(
@@ -221,7 +219,7 @@ fun DevicesScreen(
                     Surface(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(16.dp),
-                        color = ObsidianSurfaceContainer,
+                        color = MaterialTheme.colorScheme.surfaceContainer,
                         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                     ) {
                         Text(
@@ -279,7 +277,7 @@ fun DevicesScreen(
                     Surface(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(16.dp),
-                        color = ObsidianSurfaceContainer,
+                        color = MaterialTheme.colorScheme.surfaceContainer,
                         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                     ) {
                         Text(

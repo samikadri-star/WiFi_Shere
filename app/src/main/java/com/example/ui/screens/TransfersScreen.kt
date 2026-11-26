@@ -59,8 +59,6 @@ import com.example.ui.components.WiFiShareBottomBar
 import com.example.ui.theme.EmeraldSuccess
 import com.example.ui.theme.EmeraldWarning
 import com.example.ui.theme.MonoTypography
-import com.example.ui.theme.ObsidianSurfaceContainer
-import com.example.ui.theme.ObsidianSurfaceContainerHigh
 import com.example.ui.viewmodel.MainShellUiState
 import com.example.ui.viewmodel.TransfersUiState
 import com.example.util.FormatUtils
@@ -110,7 +108,7 @@ fun TransfersScreen(
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(24.dp),
-                    color = ObsidianSurfaceContainerHigh,
+                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                 ) {
                     Column(
@@ -224,7 +222,7 @@ fun TransfersScreen(
                     Surface(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(16.dp),
-                        color = ObsidianSurfaceContainer,
+                        color = MaterialTheme.colorScheme.surfaceContainer,
                         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                     ) {
                         Column(
@@ -317,7 +315,7 @@ private fun SpeedMetricCard(
     Surface(
         modifier = modifier,
         shape = RoundedCornerShape(16.dp),
-        color = ObsidianSurfaceContainer,
+        color = MaterialTheme.colorScheme.surfaceContainer,
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
     ) {
         Column(
@@ -394,7 +392,7 @@ private fun TransferItemRow(
             Surface(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
-                color = ObsidianSurfaceContainer,
+                color = MaterialTheme.colorScheme.surfaceContainer,
                 border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
             ) {
                 Row(
@@ -452,7 +450,7 @@ private fun TransferItemRow(
             Surface(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
-                color = ObsidianSurfaceContainer,
+                color = MaterialTheme.colorScheme.surfaceContainer,
                 border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
             ) {
                 Column(

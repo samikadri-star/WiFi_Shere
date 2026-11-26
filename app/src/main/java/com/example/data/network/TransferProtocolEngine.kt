@@ -15,9 +15,10 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Semaphore
+import kotlinx.coroutines.sync.withPermit
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import java.io.BufferedInputStream
@@ -59,10 +60,15 @@ class TransferProtocolEngine(
     private val fileScanner: DeviceFileScanner,
     private val transferDao: TransferDao,
     private val pairedDeviceDao: PairedDeviceDao,
+    private val onWifiPerformanceLockChanged: (Boolean) -> Unit = {},
 ) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val json = Json { ignoreUnknownKeys = true }
     private val activeJobs = ConcurrentHashMap<String, Job>()
+    private val outgoingStreamSemaphore = Semaphore(permits = 3)
+
+    @Volatile
+    private var turboMaxSpeedEnabled: Boolean = true
 
     private var serverSocket: ServerSocket? = null
     private var acceptJob: Job? = null
@@ -78,6 +84,17 @@ class TransferProtocolEngine(
 
     private val activeOutgoingSpeeds = ConcurrentHashMap<String, Long>()
     private val activeIncomingSpeeds = ConcurrentHashMap<String, Long>()
+
+    companion object {
+        private const val TURBO_TCP_BUFFER_BYTES = 1024 * 1024 // 1 MB TCP window buffer
+        private const val TURBO_CHUNK_BYTES = 512 * 1024 // 512 KB I/O block size
+        private const val STANDARD_BUFFER_BYTES = 64 * 1024
+        private const val PROGRESS_UPDATE_INTERVAL_MS = 200L
+    }
+
+    fun setTurboMaxSpeed(enabled: Boolean) {
+        turboMaxSpeedEnabled = enabled
+    }
 
     fun startServer(preferredPort: Int = 54321, onPortBound: (Int) -> Unit) {
         if (acceptJob?.isActive == true) {
@@ -100,6 +117,7 @@ class TransferProtocolEngine(
         acceptJob?.cancel()
         runCatching { serverSocket?.close() }
         serverSocket = null
+        onWifiPerformanceLockChanged(false)
     }
 
     suspend fun enqueueAndStartOutgoing(
@@ -200,106 +218,119 @@ class TransferProtocolEngine(
     ) {
         activeJobs[entity.id]?.cancel()
         val job = scope.launch {
-            var socket: Socket? = null
-            try {
-                transferDao.updateStatus(entity.id, TransferStatus.ACTIVE.name)
-                socket = Socket().apply {
-                    soTimeout = 15_000
-                    connect(InetSocketAddress(host, port), 6_000)
-                }
+            outgoingStreamSemaphore.withPermit {
+                var socket: Socket? = null
+                try {
+                    onWifiPerformanceLockChanged(true)
+                    transferDao.updateStatus(entity.id, TransferStatus.ACTIVE.name)
+                    val useTurbo = turboMaxSpeedEnabled
+                    val tcpBuf = if (useTurbo) TURBO_TCP_BUFFER_BYTES else STANDARD_BUFFER_BYTES
+                    val chunkSize = if (useTurbo) TURBO_CHUNK_BYTES else STANDARD_BUFFER_BYTES
 
-                val outStream = BufferedOutputStream(socket.getOutputStream(), 64 * 1024)
-                val reader = BufferedReader(InputStreamReader(socket.getInputStream()))
-
-                val header = TransferHeaderFrame(
-                    transferId = entity.id,
-                    sessionId = entity.sessionId,
-                    senderDeviceId = localDeviceId,
-                    senderDeviceName = localDeviceName,
-                    pairingToken = pairingToken,
-                    fileName = entity.fileName,
-                    mimeType = entity.mimeType,
-                    category = entity.category,
-                    isFolder = entity.isFolder,
-                    itemCount = entity.itemCount,
-                    totalBytes = entity.totalBytes,
-                    requestedOffset = entity.transferredBytes,
-                )
-                outStream.write((json.encodeToString(header) + "\n").toByteArray(Charsets.UTF_8))
-                outStream.flush()
-
-                val ackLine = reader.readLine() ?: throw IllegalStateException("No ack from peer")
-                val ack = json.decodeFromString<TransferAckFrame>(ackLine)
-                if (!ack.accepted) {
-                    transferDao.updateStatus(entity.id, TransferStatus.FAILED.name)
-                    return@launch
-                }
-
-                val startOffset = ack.resumeOffset.coerceIn(0L, entity.totalBytes)
-                val inputStream = fileScanner.openStreamForItem(entity.sourceUri)
-                    ?: throw IllegalStateException("Cannot open source URI")
-
-                inputStream.use { rawIn ->
-                    val bufferedIn = BufferedInputStream(rawIn, 64 * 1024)
-                    if (startOffset > 0L) {
-                        var toSkip = startOffset
-                        while (toSkip > 0L) {
-                            val skipped = bufferedIn.skip(toSkip)
-                            if (skipped <= 0L) break
-                            toSkip -= skipped
+                    socket = Socket().apply {
+                        soTimeout = 15_000
+                        tcpNoDelay = true
+                        runCatching {
+                            sendBufferSize = tcpBuf
+                            receiveBufferSize = tcpBuf
+                            trafficClass = 0x08 // IPTOS_THROUGHPUT
                         }
+                        connect(InetSocketAddress(host, port), 6_000)
                     }
 
-                    val buffer = ByteArray(64 * 1024)
-                    var sentTotal = startOffset
-                    var windowBytes = 0L
-                    var windowStart = System.currentTimeMillis()
+                    val outStream = BufferedOutputStream(socket.getOutputStream(), chunkSize)
+                    val reader = BufferedReader(InputStreamReader(socket.getInputStream()))
 
-                    while (isActive) {
-                        val read = bufferedIn.read(buffer)
-                        if (read == -1) break
-                        outStream.write(buffer, 0, read)
-                        sentTotal += read
-                        windowBytes += read
-
-                        val now = System.currentTimeMillis()
-                        val elapsedMs = now - windowStart
-                        if (elapsedMs >= 160L) {
-                            val bps = (windowBytes * 1000L) / elapsedMs.coerceAtLeast(1L)
-                            activeOutgoingSpeeds[entity.id] = bps
-                            recomputeAggregateSpeeds()
-                            transferDao.updateProgress(
-                                id = entity.id,
-                                transferredBytes = sentTotal.coerceAtMost(entity.totalBytes),
-                                speedBytesPerSec = bps,
-                                status = TransferStatus.ACTIVE.name,
-                            )
-                            windowBytes = 0L
-                            windowStart = now
-                        }
-                    }
+                    val header = TransferHeaderFrame(
+                        transferId = entity.id,
+                        sessionId = entity.sessionId,
+                        senderDeviceId = localDeviceId,
+                        senderDeviceName = localDeviceName,
+                        pairingToken = pairingToken,
+                        fileName = entity.fileName,
+                        mimeType = entity.mimeType,
+                        category = entity.category,
+                        isFolder = entity.isFolder,
+                        itemCount = entity.itemCount,
+                        totalBytes = entity.totalBytes,
+                        requestedOffset = entity.transferredBytes,
+                    )
+                    outStream.write((json.encodeToString(header) + "\n").toByteArray(Charsets.UTF_8))
                     outStream.flush()
+
+                    val ackLine = reader.readLine() ?: throw IllegalStateException("No ack from peer")
+                    val ack = json.decodeFromString<TransferAckFrame>(ackLine)
+                    if (!ack.accepted) {
+                        transferDao.updateStatus(entity.id, TransferStatus.FAILED.name)
+                        return@withPermit
+                    }
+
+                    val startOffset = ack.resumeOffset.coerceIn(0L, entity.totalBytes)
+                    val inputStream = fileScanner.openStreamForItem(entity.sourceUri)
+                        ?: throw IllegalStateException("Cannot open source URI")
+
+                    inputStream.use { rawIn ->
+                        val bufferedIn = BufferedInputStream(rawIn, chunkSize)
+                        if (startOffset > 0L) {
+                            var toSkip = startOffset
+                            while (toSkip > 0L) {
+                                val skipped = bufferedIn.skip(toSkip)
+                                if (skipped <= 0L) break
+                                toSkip -= skipped
+                            }
+                        }
+
+                        val buffer = ByteArray(chunkSize)
+                        var sentTotal = startOffset
+                        var windowBytes = 0L
+                        var windowStart = System.currentTimeMillis()
+
+                        while (isActive) {
+                            val read = bufferedIn.read(buffer)
+                            if (read == -1) break
+                            outStream.write(buffer, 0, read)
+                            sentTotal += read
+                            windowBytes += read
+
+                            val now = System.currentTimeMillis()
+                            val elapsedMs = now - windowStart
+                            if (elapsedMs >= PROGRESS_UPDATE_INTERVAL_MS) {
+                                val bps = (windowBytes * 1000L) / elapsedMs.coerceAtLeast(1L)
+                                activeOutgoingSpeeds[entity.id] = bps
+                                recomputeAggregateSpeeds()
+                                transferDao.updateProgress(
+                                    id = entity.id,
+                                    transferredBytes = sentTotal.coerceAtMost(entity.totalBytes),
+                                    speedBytesPerSec = bps,
+                                    status = TransferStatus.ACTIVE.name,
+                                )
+                                windowBytes = 0L
+                                windowStart = now
+                            }
+                        }
+                        outStream.flush()
+                        activeOutgoingSpeeds.remove(entity.id)
+                        recomputeAggregateSpeeds()
+                        transferDao.updateProgress(
+                            id = entity.id,
+                            transferredBytes = entity.totalBytes,
+                            speedBytesPerSec = 0L,
+                            status = TransferStatus.COMPLETED.name,
+                        )
+                    }
+                } catch (_: CancellationException) {
                     activeOutgoingSpeeds.remove(entity.id)
                     recomputeAggregateSpeeds()
-                    transferDao.updateProgress(
-                        id = entity.id,
-                        transferredBytes = entity.totalBytes,
-                        speedBytesPerSec = 0L,
-                        status = TransferStatus.COMPLETED.name,
-                    )
+                    transferDao.updateStatus(entity.id, TransferStatus.PAUSED.name)
+                } catch (_: Exception) {
+                    activeOutgoingSpeeds.remove(entity.id)
+                    recomputeAggregateSpeeds()
+                    transferDao.updateStatus(entity.id, TransferStatus.PAUSED.name)
+                } finally {
+                    activeJobs.remove(entity.id)
+                    runCatching { socket?.close() }
+                    updateWifiLockFromActiveState()
                 }
-            } catch (_: CancellationException) {
-                activeOutgoingSpeeds.remove(entity.id)
-                recomputeAggregateSpeeds()
-                transferDao.updateStatus(entity.id, TransferStatus.PAUSED.name)
-            } catch (_: Exception) {
-                activeOutgoingSpeeds.remove(entity.id)
-                recomputeAggregateSpeeds()
-                // Keep exact progress paused so user can resume when peer reconnects
-                transferDao.updateStatus(entity.id, TransferStatus.PAUSED.name)
-            } finally {
-                activeJobs.remove(entity.id)
-                runCatching { socket?.close() }
             }
         }
         activeJobs[entity.id] = job
@@ -308,8 +339,20 @@ class TransferProtocolEngine(
     private suspend fun handleIncomingConnection(socket: Socket) {
         var currentTransferId: String? = null
         try {
+            onWifiPerformanceLockChanged(true)
+            val useTurbo = turboMaxSpeedEnabled
+            val tcpBuf = if (useTurbo) TURBO_TCP_BUFFER_BYTES else STANDARD_BUFFER_BYTES
+            val chunkSize = if (useTurbo) TURBO_CHUNK_BYTES else STANDARD_BUFFER_BYTES
+
             socket.soTimeout = 20_000
-            val rawIn = BufferedInputStream(socket.getInputStream(), 64 * 1024)
+            socket.tcpNoDelay = true
+            runCatching {
+                socket.receiveBufferSize = tcpBuf
+                socket.sendBufferSize = tcpBuf
+                socket.trafficClass = 0x08
+            }
+
+            val rawIn = BufferedInputStream(socket.getInputStream(), chunkSize)
             val lineBuffer = StringBuilder()
             while (true) {
                 val b = rawIn.read()
@@ -373,7 +416,7 @@ class TransferProtocolEngine(
             var receivedTotal = resumeOffset
             var windowBytes = 0L
             var windowStart = System.currentTimeMillis()
-            val buffer = ByteArray(64 * 1024)
+            val buffer = ByteArray(chunkSize)
 
             RandomAccessFile(partFile, "rw").use { raf ->
                 raf.seek(resumeOffset)
@@ -386,7 +429,7 @@ class TransferProtocolEngine(
 
                     val now = System.currentTimeMillis()
                     val elapsedMs = now - windowStart
-                    if (elapsedMs >= 160L) {
+                    if (elapsedMs >= PROGRESS_UPDATE_INTERVAL_MS) {
                         val bps = (windowBytes * 1000L) / elapsedMs.coerceAtLeast(1L)
                         activeIncomingSpeeds[header.transferId] = bps
                         recomputeAggregateSpeeds()
@@ -432,19 +475,35 @@ class TransferProtocolEngine(
             }
         } finally {
             runCatching { socket.close() }
+            updateWifiLockFromActiveState()
         }
     }
 
     private fun openServerSocket(preferredPort: Int): ServerSocket? {
         return runCatching {
-            ServerSocket(preferredPort)
+            ServerSocket().apply {
+                reuseAddress = true
+                receiveBufferSize = TURBO_TCP_BUFFER_BYTES
+                bind(InetSocketAddress(preferredPort))
+            }
         }.recoverCatching {
-            ServerSocket(0)
+            ServerSocket().apply {
+                reuseAddress = true
+                receiveBufferSize = TURBO_TCP_BUFFER_BYTES
+                bind(InetSocketAddress(0))
+            }
         }.getOrNull()
     }
 
     private fun recomputeAggregateSpeeds() {
         _outgoingSpeedBps.value = activeOutgoingSpeeds.values.sum()
         _incomingSpeedBps.value = activeIncomingSpeeds.values.sum()
+    }
+
+    private fun updateWifiLockFromActiveState() {
+        val anyActive = activeJobs.isNotEmpty() || activeIncomingSpeeds.isNotEmpty()
+        if (!anyActive) {
+            onWifiPerformanceLockChanged(false)
+        }
     }
 }

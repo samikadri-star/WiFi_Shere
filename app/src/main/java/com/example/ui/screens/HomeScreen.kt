@@ -46,11 +46,12 @@ import com.example.ui.components.DeviceRowCard
 import com.example.ui.components.MainTopAppBar
 import com.example.ui.components.ResumableTransferCard
 import com.example.ui.components.WiFiShareBottomBar
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import com.example.R
 import com.example.ui.theme.EmeraldSuccess
 import com.example.ui.theme.EmeraldWarning
 import com.example.ui.theme.MonoTypography
-import com.example.ui.theme.ObsidianSurfaceContainer
-import com.example.ui.theme.ObsidianSurfaceContainerHigh
 import com.example.ui.viewmodel.DevicesUiState
 import com.example.ui.viewmodel.MainShellUiState
 import com.example.util.FormatUtils
@@ -144,7 +145,7 @@ fun HomeScreen(
                                         )
                                     }
                                     Text(
-                                        text = "MAX",
+                                        text = if (shellState.settings.turboMaxSpeed) "TURBO MAX" else "MAX",
                                         style = MonoTypography.Small,
                                         color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.85f),
                                     )
@@ -176,7 +177,7 @@ fun HomeScreen(
                                 .clickable(onClick = onReceiveClick)
                                 .testTag("home_receive_card"),
                             shape = RoundedCornerShape(24.dp),
-                            color = ObsidianSurfaceContainerHigh,
+                            color = MaterialTheme.colorScheme.surfaceContainerHigh,
                             border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                         ) {
                             Column(
@@ -238,7 +239,7 @@ fun HomeScreen(
                     Surface(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(16.dp),
-                        color = ObsidianSurfaceContainer,
+                        color = MaterialTheme.colorScheme.surfaceContainer,
                         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                     ) {
                         Row(
@@ -279,6 +280,8 @@ fun HomeScreen(
                             Text(
                                 text = if (shellState.combinedSpeedBps > 0L) {
                                     FormatUtils.formatSpeedMbps(shellState.combinedSpeedBps)
+                                } else if (shellState.settings.turboMaxSpeed) {
+                                    "${shellState.hotspotState.bandLabel} • أقصى سرعة"
                                 } else {
                                     "${shellState.hotspotState.bandLabel} • جاهز"
                                 },
@@ -357,7 +360,7 @@ fun HomeScreen(
                     Surface(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(16.dp),
-                        color = ObsidianSurfaceContainer,
+                        color = MaterialTheme.colorScheme.surfaceContainer,
                         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                     ) {
                         Row(
@@ -371,7 +374,7 @@ fun HomeScreen(
                                 modifier = Modifier
                                     .size(44.dp)
                                     .clip(CircleShape)
-                                    .background(ObsidianSurfaceContainerHigh),
+                                    .background(MaterialTheme.colorScheme.surfaceContainerHigh),
                                 contentAlignment = Alignment.Center,
                             ) {
                                 Icon(
@@ -414,6 +417,19 @@ fun HomeScreen(
                         )
                     }
                 }
+            }
+
+            item {
+                Text(
+                    text = stringResource(R.string.developer_credit),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 4.dp, bottom = 8.dp)
+                        .testTag("home_developer_credit"),
+                )
             }
         }
     }

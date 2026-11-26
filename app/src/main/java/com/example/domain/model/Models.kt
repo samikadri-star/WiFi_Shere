@@ -83,6 +83,11 @@ data class QrPairingPayload(
     val supports5Ghz: Boolean = true,
 )
 
+enum class AppThemeMode(val labelAr: String) {
+    EMERALD("الزمردي الداكن"),
+    BLUE("الأزرق الداكن"),
+}
+
 data class AppSettings(
     val deviceId: String = "",
     val deviceName: String = "جهازي",
@@ -90,6 +95,8 @@ data class AppSettings(
     val prefer5Ghz: Boolean = true,
     val simultaneousTransfer: Boolean = true,
     val autoResume: Boolean = true,
+    val turboMaxSpeed: Boolean = true,
+    val themeMode: AppThemeMode = AppThemeMode.EMERALD,
     val saveFolderPath: String = "/Download/WiFiShare",
 )
 

@@ -285,6 +285,18 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun updateTurboMaxSpeed(enabled: Boolean) {
+        viewModelScope.launch {
+            repository.updateTurboMaxSpeed(enabled)
+        }
+    }
+
+    fun updateThemeMode(mode: com.example.domain.model.AppThemeMode) {
+        viewModelScope.launch {
+            repository.updateThemeMode(mode)
+        }
+    }
+
     fun updateSaveFolderPath(path: String) {
         viewModelScope.launch {
             repository.updateSaveFolderPath(path)

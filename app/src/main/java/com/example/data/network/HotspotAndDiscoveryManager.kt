@@ -45,9 +45,39 @@ class HotspotAndDiscoveryManager(private val context: Context) {
     private var registrationListener: NsdManager.RegistrationListener? = null
     private var discoveryListener: NsdManager.DiscoveryListener? = null
     private var localDeviceId: String = ""
+    private var wifiLock: WifiManager.WifiLock? = null
 
     companion object {
         private const val SERVICE_TYPE = "_wifishare._tcp."
+    }
+
+    @Synchronized
+    fun setHighPerformanceWifiLock(active: Boolean) {
+        val manager = wifiManager ?: return
+        if (active) {
+            if (wifiLock == null) {
+                val mode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    WifiManager.WIFI_MODE_FULL_LOW_LATENCY
+                } else {
+                    @Suppress("DEPRECATION")
+                    WifiManager.WIFI_MODE_FULL_HIGH_PERF
+                }
+                wifiLock = manager.createWifiLock(mode, "WiFiShare:MaxThroughput").apply {
+                    setReferenceCounted(false)
+                }
+            }
+            runCatching {
+                if (wifiLock?.isHeld == false) {
+                    wifiLock?.acquire()
+                }
+            }
+        } else {
+            runCatching {
+                if (wifiLock?.isHeld == true) {
+                    wifiLock?.release()
+                }
+            }
+        }
     }
 
     fun hasHotspotPermission(): Boolean {

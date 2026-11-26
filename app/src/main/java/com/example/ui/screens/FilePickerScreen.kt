@@ -73,9 +73,6 @@ import com.example.domain.model.SelectableFileItem
 import com.example.ui.components.CircleIconButton
 import com.example.ui.components.ContextualTopAppBar
 import com.example.ui.theme.MonoTypography
-import com.example.ui.theme.ObsidianSurfaceContainer
-import com.example.ui.theme.ObsidianSurfaceContainerHigh
-import com.example.ui.theme.ObsidianSurfaceContainerLow
 import com.example.ui.viewmodel.FilePickerUiState
 import com.example.util.FormatUtils
 
@@ -132,7 +129,7 @@ fun FilePickerScreen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(ObsidianSurfaceContainerLow),
+                    .background(MaterialTheme.colorScheme.surfaceContainerLow),
             ) {
                 HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant, thickness = 1.dp)
                 Row(
@@ -214,8 +211,8 @@ fun FilePickerScreen(
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = MaterialTheme.colorScheme.primary,
                             unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
-                            focusedContainerColor = ObsidianSurfaceContainer,
-                            unfocusedContainerColor = ObsidianSurfaceContainer,
+                            focusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
+                            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
@@ -280,7 +277,7 @@ fun FilePickerScreen(
                                 .clickable { onSelectCategory(category) }
                                 .testTag("filter_chip_${category.name}"),
                             shape = CircleShape,
-                            color = if (selected) MaterialTheme.colorScheme.primary else ObsidianSurfaceContainerHigh,
+                            color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceContainerHigh,
                             border = if (selected) null else BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                         ) {
                             Text(
@@ -340,7 +337,7 @@ fun FilePickerScreen(
                     Surface(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(16.dp),
-                        color = ObsidianSurfaceContainer,
+                        color = MaterialTheme.colorScheme.surfaceContainer,
                         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                     ) {
                         Column(
@@ -383,7 +380,7 @@ fun FilePickerScreen(
     if (showTargetDialog) {
         AlertDialog(
             onDismissRequest = { showTargetDialog = false },
-            containerColor = ObsidianSurfaceContainerHigh,
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
             title = {
                 Text(
                     text = "اختر الجهاز المستلم",
@@ -411,7 +408,7 @@ fun FilePickerScreen(
                                         onSendNow(device)
                                     },
                                 shape = RoundedCornerShape(12.dp),
-                                color = ObsidianSurfaceContainer,
+                                color = MaterialTheme.colorScheme.surfaceContainer,
                                 border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                             ) {
                                 Text(
@@ -492,7 +489,7 @@ private fun SelectableFileRow(
     item: SelectableFileItem,
     onClick: () -> Unit,
 ) {
-    val bgColor = if (item.isSelected) ObsidianSurfaceContainerHigh else ObsidianSurfaceContainer
+    val bgColor = if (item.isSelected) MaterialTheme.colorScheme.surfaceContainerHigh else MaterialTheme.colorScheme.surfaceContainer
     val borderColor = if (item.isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant
 
     Surface(
@@ -523,7 +520,7 @@ private fun SelectableFileRow(
                         .clip(RoundedCornerShape(12.dp))
                         .background(
                             if (item.isSelected) MaterialTheme.colorScheme.secondaryContainer
-                            else ObsidianSurfaceContainerHigh,
+                            else MaterialTheme.colorScheme.surfaceContainerHigh,
                         ),
                     contentAlignment = Alignment.Center,
                 ) {

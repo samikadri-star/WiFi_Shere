@@ -79,11 +79,7 @@ import com.example.domain.model.NearbyDevice
 import com.example.ui.components.CircleIconButton
 import com.example.ui.components.ContextualTopAppBar
 import com.example.ui.components.VerifiedStatusBadge
-import com.example.ui.theme.EmeraldPrimary
 import com.example.ui.theme.MonoTypography
-import com.example.ui.theme.ObsidianSurfaceContainer
-import com.example.ui.theme.ObsidianSurfaceContainerHigh
-import com.example.ui.theme.ObsidianSurfaceContainerLowest
 import com.example.ui.viewmodel.QrPairingUiState
 import java.util.concurrent.Executors
 
@@ -165,7 +161,7 @@ fun QrPairingScreen(
             Surface(
                 modifier = Modifier.fillMaxWidth(),
                 shape = CircleShape,
-                color = ObsidianSurfaceContainerHigh,
+                color = MaterialTheme.colorScheme.surfaceContainerHigh,
                 border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
             ) {
                 Row(
@@ -205,7 +201,7 @@ fun QrPairingScreen(
                         .widthIn(max = 280.dp)
                         .aspectRatio(1f),
                     shape = RoundedCornerShape(24.dp),
-                    color = ObsidianSurfaceContainerLowest,
+                    color = MaterialTheme.colorScheme.surfaceContainerLowest,
                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                 ) {
                     Box(
@@ -331,7 +327,7 @@ fun QrPairingScreen(
             Surface(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
-                color = ObsidianSurfaceContainer,
+                color = MaterialTheme.colorScheme.surfaceContainer,
                 border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
             ) {
                 Row(
@@ -425,6 +421,7 @@ private fun ModeTabButton(
 
 @Composable
 private fun EmeraldCornerBrackets(modifier: Modifier = Modifier) {
+    val bracketColor = MaterialTheme.colorScheme.primary
     Canvas(modifier = modifier) {
         val strokeWidth = 4.dp.toPx()
         val cornerLen = 28.dp.toPx()
@@ -433,20 +430,20 @@ private fun EmeraldCornerBrackets(modifier: Modifier = Modifier) {
         val h = size.height
 
         // Top-Left
-        drawLine(EmeraldPrimary, Offset(pad, pad), Offset(cornerLen, pad), strokeWidth, StrokeCap.Round)
-        drawLine(EmeraldPrimary, Offset(pad, pad), Offset(pad, cornerLen), strokeWidth, StrokeCap.Round)
+        drawLine(bracketColor, Offset(pad, pad), Offset(cornerLen, pad), strokeWidth, StrokeCap.Round)
+        drawLine(bracketColor, Offset(pad, pad), Offset(pad, cornerLen), strokeWidth, StrokeCap.Round)
         // Top-Right
-        drawLine(EmeraldPrimary, Offset(w - cornerLen, pad), Offset(w - pad, pad), strokeWidth, StrokeCap.Round)
-        drawLine(EmeraldPrimary, Offset(w - pad, pad), Offset(w - pad, cornerLen), strokeWidth, StrokeCap.Round)
+        drawLine(bracketColor, Offset(w - cornerLen, pad), Offset(w - pad, pad), strokeWidth, StrokeCap.Round)
+        drawLine(bracketColor, Offset(w - pad, pad), Offset(w - pad, cornerLen), strokeWidth, StrokeCap.Round)
         // Bottom-Left
-        drawLine(EmeraldPrimary, Offset(pad, h - pad), Offset(cornerLen, h - pad), strokeWidth, StrokeCap.Round)
-        drawLine(EmeraldPrimary, Offset(pad, h - cornerLen), Offset(pad, h - pad), strokeWidth, StrokeCap.Round)
+        drawLine(bracketColor, Offset(pad, h - pad), Offset(cornerLen, h - pad), strokeWidth, StrokeCap.Round)
+        drawLine(bracketColor, Offset(pad, h - cornerLen), Offset(pad, h - pad), strokeWidth, StrokeCap.Round)
         // Bottom-Right
-        drawLine(EmeraldPrimary, Offset(w - cornerLen, h - pad), Offset(w - pad, h - pad), strokeWidth, StrokeCap.Round)
-        drawLine(EmeraldPrimary, Offset(w - pad, h - cornerLen), Offset(w - pad, h - pad), strokeWidth, StrokeCap.Round)
+        drawLine(bracketColor, Offset(w - cornerLen, h - pad), Offset(w - pad, h - pad), strokeWidth, StrokeCap.Round)
+        drawLine(bracketColor, Offset(w - pad, h - cornerLen), Offset(w - pad, h - pad), strokeWidth, StrokeCap.Round)
         // Subtle inner guide
         drawRoundRect(
-            color = EmeraldPrimary.copy(alpha = 0.14f),
+            color = bracketColor.copy(alpha = 0.14f),
             topLeft = Offset(pad, pad),
             size = Size(w - strokeWidth, h - strokeWidth),
             cornerRadius = CornerRadius(12.dp.toPx(), 12.dp.toPx()),

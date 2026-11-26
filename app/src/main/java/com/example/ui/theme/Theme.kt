@@ -9,6 +9,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import com.example.domain.model.AppThemeMode
 
 private val EmeraldObsidianColorScheme = darkColorScheme(
     primary = EmeraldPrimary,
@@ -47,6 +48,43 @@ private val EmeraldObsidianColorScheme = darkColorScheme(
     inversePrimary = ObsidianInversePrimary,
 )
 
+private val BlueObsidianColorScheme = darkColorScheme(
+    primary = BluePrimary,
+    onPrimary = OnBluePrimary,
+    primaryContainer = BluePrimaryContainer,
+    onPrimaryContainer = OnBluePrimaryContainer,
+    secondary = BlueSecondary,
+    onSecondary = OnBlueSecondary,
+    secondaryContainer = BlueSecondaryContainer,
+    onSecondaryContainer = OnBlueSecondaryContainer,
+    tertiary = BlueTertiary,
+    onTertiary = OnBlueTertiary,
+    tertiaryContainer = BlueTertiaryContainer,
+    onTertiaryContainer = OnBlueTertiaryContainer,
+    error = EmeraldError,
+    onError = OnEmeraldError,
+    errorContainer = EmeraldErrorContainer,
+    onErrorContainer = OnEmeraldErrorContainer,
+    background = BlueBackground,
+    onBackground = BlueOnBackground,
+    surface = BlueSurface,
+    onSurface = BlueOnSurface,
+    surfaceVariant = BlueSurfaceVariant,
+    onSurfaceVariant = BlueOnSurfaceVariant,
+    surfaceDim = BlueSurfaceDim,
+    surfaceBright = BlueSurfaceBright,
+    surfaceContainerLowest = BlueSurfaceContainerLowest,
+    surfaceContainerLow = BlueSurfaceContainerLow,
+    surfaceContainer = BlueSurfaceContainer,
+    surfaceContainerHigh = BlueSurfaceContainerHigh,
+    surfaceContainerHighest = BlueSurfaceContainerHighest,
+    outline = BlueOutline,
+    outlineVariant = BlueOutlineVariant,
+    inverseSurface = BlueInverseSurface,
+    inverseOnSurface = BlueInverseOnSurface,
+    inversePrimary = BlueInversePrimary,
+)
+
 val WiFiShareShapes = Shapes(
     extraSmall = RoundedCornerShape(6.dp),
     small = RoundedCornerShape(12.dp),
@@ -57,11 +95,16 @@ val WiFiShareShapes = Shapes(
 
 @Composable
 fun WiFiShareTheme(
+    themeMode: AppThemeMode = AppThemeMode.EMERALD,
     content: @Composable () -> Unit,
 ) {
+    val activeScheme = when (themeMode) {
+        AppThemeMode.EMERALD -> EmeraldObsidianColorScheme
+        AppThemeMode.BLUE -> BlueObsidianColorScheme
+    }
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
         MaterialTheme(
-            colorScheme = EmeraldObsidianColorScheme,
+            colorScheme = activeScheme,
             typography = WiFiShareTypography,
             shapes = WiFiShareShapes,
             content = content,
